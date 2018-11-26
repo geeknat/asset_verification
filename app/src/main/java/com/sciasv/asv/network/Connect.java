@@ -11,9 +11,7 @@ public class Connect {
 
     public static String login = "login";
 
-    public static String fetchAsset(String tag) {
-        return "asset/" + tag;
-    }
+    public static String fetchAsset = "asset";
 
     public static String fetchUserHistory(String userId) {
         return "history/" + userId;

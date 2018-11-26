@@ -46,6 +46,7 @@ public class ScanFragment extends Fragment {
     ResponseHandler responseHandler;
     CodeScanner mCodeScanner;
     ProfileHolder profileHolder;
+    String tag = "";
 
     @Override
     public void onAttach(Context context) {
@@ -68,7 +69,6 @@ public class ScanFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        responseHandler.showToast(result.getText());
                         load(result.getText());
                     }
                 });
@@ -87,19 +87,31 @@ public class ScanFragment extends Fragment {
 
     }
 
-    void load(final String tag) {
+    void load(final String tagResult) {
         final ProgressDialog progressDialog = new ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
         progressDialog.setMessage("Loading asset...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        AndroidNetworking.get(Connect.url + Connect.fetchAsset(tag))
+        if (tagResult.contains("http")) {
+            String[] splitTag = tagResult.split("/");
+            tag = splitTag[splitTag.length - 1];
+        } else {
+            tag = tagResult;
+        }
+
+        responseHandler.showToast(tag);
+
+        AndroidNetworking.get(Connect.url + Connect.fetchAsset)
                 .addQueryParameter("user_id", profileHolder.getUserId())
+                .addQueryParameter("tag", tag)
                 .setPriority(Priority.IMMEDIATE)
                 .build()
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.v(Connect.tag, response);
 
                         progressDialog.dismiss();
 
@@ -108,7 +120,7 @@ public class ScanFragment extends Fragment {
                         ArrayList<AssetItem> assetItems = jsonHandler.getAssets(response);
 
                         if (assetItems.size() == 0) {
-                            responseHandler.showDialog("Oops!!!", "No asset found matching the scanned tag.");
+                            responseHandler.showDialog("Oops!!!", "No asset found matching the scanned tag - " + tag);
                         } else {
                             viewAsset(tag, assetItems);
                         }
