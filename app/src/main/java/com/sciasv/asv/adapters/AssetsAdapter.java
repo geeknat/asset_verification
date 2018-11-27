@@ -66,11 +66,10 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof ViewHolder) {
             final AssetItem assetItem = assetItems.get(position);
-            ((ViewHolder) holder).tName.setText(assetItem.getName().trim().isEmpty() ? "N/A" : assetItem.getName());
+            ((ViewHolder) holder).tName.setText("Asset Tag : " + assetItem.getAssetTag());
 
             ((ViewHolder) holder).tSubItem.setText(
-                    "Asset Tag : " + assetItem.getAssetTag() + "\n\n" +
-                            "Model Name : " + assetItem.getModelNo() + "\n\n");
+                            "Model Name : " + assetItem.getModelNo());
 
             ((ViewHolder) holder).card.setOnClickListener(new View.OnClickListener() {
                 @Override
