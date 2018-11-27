@@ -14,11 +14,16 @@ import android.view.MenuItem;
 import com.sciasv.asv.R;
 import com.sciasv.asv.fragments.HistoryFragment;
 import com.sciasv.asv.fragments.ScanFragment;
+import com.sciasv.asv.models.ProfileHolder;
+
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
 
 public class Home extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private ProfileHolder profileHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class Home extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+
+        profileHolder = new ProfileHolder(this);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -47,7 +54,7 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
 
@@ -59,7 +66,44 @@ public class Home extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+
+            final PrettyDialog pDialog = new PrettyDialog(this);
+            pDialog.setCancelable(false);
+            pDialog.setIcon(
+                    R.drawable.pdlg_icon_info,
+                    R.color.pdlg_color_green, new PrettyDialogCallback() {
+                        @Override
+                        public void onClick() {
+                            pDialog.dismiss();
+                        }
+                    })
+                    .setTitle("Log out?")
+                    .setMessage("Please confirm that you want to log out.")
+                    .addButton(
+                            "CANCEL",
+                            R.color.pdlg_color_white,
+                            R.color.pdlg_color_green,
+                            new PrettyDialogCallback() {
+                                @Override
+                                public void onClick() {
+                                    pDialog.dismiss();
+                                }
+                            }
+                    )
+                    .addButton(
+                            "YES",
+                            R.color.pdlg_color_white,
+                            R.color.pdlg_color_red,
+                            new PrettyDialogCallback() {
+                                @Override
+                                public void onClick() {
+                                    profileHolder.logOut();
+                                }
+                            }
+                    )
+                    .show();
+
             return true;
         }
 
@@ -88,5 +132,46 @@ public class Home extends AppCompatActivity {
         public int getCount() {
             return 2;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        final PrettyDialog pDialog = new PrettyDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setIcon(
+                R.drawable.pdlg_icon_info,
+                R.color.pdlg_color_green, new PrettyDialogCallback() {
+                    @Override
+                    public void onClick() {
+                        pDialog.dismiss();
+                    }
+                })
+                .setTitle("Exit app?")
+                .setMessage("Do you really want to exit app?")
+                .addButton(
+                        "NO",
+                        R.color.pdlg_color_white,
+                        R.color.pdlg_color_green,
+                        new PrettyDialogCallback() {
+                            @Override
+                            public void onClick() {
+                                pDialog.dismiss();
+                            }
+                        }
+                )
+                .addButton(
+                        "YES",
+                        R.color.pdlg_color_white,
+                        R.color.pdlg_color_red,
+                        new PrettyDialogCallback() {
+                            @Override
+                            public void onClick() {
+                                pDialog.dismiss();
+                            }
+                        }
+                )
+                .show();
+
     }
 }

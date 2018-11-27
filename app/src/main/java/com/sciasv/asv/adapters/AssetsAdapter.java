@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sciasv.asv.R;
 import com.sciasv.asv.models.AssetItem;
+import com.sciasv.asv.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -68,17 +69,15 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((ViewHolder) holder).tName.setText(assetItem.getName().trim().isEmpty() ? "N/A" : assetItem.getName());
 
             ((ViewHolder) holder).tSubItem.setText(
-                    "SOF : " + assetItem.getSof() + "\n\n" +
-                            "Email : " + assetItem.getEmail() + "\n\n" +
-                            "Serial No : " + assetItem.getSerialNumber() + "\n\n" +
-                            "Model No : " + assetItem.getModelNo() + "\n\n" +
-                            "Manufacturer : " + assetItem.getManufacturer() + "\n\n" +
-                            "Supplier : " + assetItem.getSupplier() + "\n\n" +
-                            "Purchase Date : " + assetItem.getPurchaseDate() + "\n\n" +
-                            "Location : " + assetItem.getLocation() + "\n\n" +
-                            "Default Office : " + assetItem.getDefaultOffice() + "\n\n" +
-                            "Status : " + assetItem.getStatus() + "\n\n"
-            );
+                    "Asset Tag : " + assetItem.getAssetTag() + "\n\n" +
+                            "Model Name : " + assetItem.getModelNo() + "\n\n");
+
+            ((ViewHolder) holder).card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.viewAsset(context, assetItem);
+                }
+            });
 
         }
 

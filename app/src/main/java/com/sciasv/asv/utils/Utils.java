@@ -2,6 +2,7 @@ package com.sciasv.asv.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.ContentUris;
 import android.content.Context;
@@ -23,10 +24,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sciasv.asv.R;
+import com.sciasv.asv.models.AssetItem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -695,4 +698,43 @@ public class Utils {
     }
 
 
+    public static void viewAsset(Context context, AssetItem assetItem) {
+        final Dialog dialog = new Dialog(context, R.style.AppThemeLight);
+        dialog.setContentView(R.layout.dialog_view_asset);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        TextView tTitle = dialog.findViewById(R.id.title);
+        tTitle.setText(assetItem.getAssetTag());
+
+        ImageButton btnNegative = dialog.findViewById(R.id.btnCancel);
+        final ImageButton btnDone = dialog.findViewById(R.id.btnCreate);
+
+        btnDone.setVisibility(View.INVISIBLE);
+
+        btnNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView tDetails = dialog.findViewById(R.id.itemSubName);
+        tDetails.setText("Asset Tag : " + assetItem.getAssetTag() + "\n\n" +
+                "Status : " + assetItem.getStatus() + "\n\n" +
+                "Email : " + assetItem.getEmail() + "\n\n" +
+                "Serial : " + assetItem.getSerialNumber() + "\n\n" +
+                "Model Name : " + assetItem.getModelNo() + "\n\n" +
+                "Purchase Date : " + assetItem.getPurchaseDate() + "\n\n" +
+                "Purchase Cost : " + assetItem.getPurchaseCost() + "\n\n" +
+                "Supplier : " + assetItem.getSupplier() + "\n\n" +
+                "Warranty : " + assetItem.getWarranty() + "\n\n" +
+                "Comments : " + assetItem.getComments() + "\n\n" +
+                "Created at : " + assetItem.getCreatedAt() + "\n\n" +
+                "Default Office : " + assetItem.getDefaultOffice() + "\n\n" +
+                "Location : " + assetItem.getLocation() + "\n\n"
+        );
+
+
+    }
 }

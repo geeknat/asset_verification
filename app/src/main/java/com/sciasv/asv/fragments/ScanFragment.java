@@ -1,21 +1,15 @@
 package com.sciasv.asv.fragments;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -26,12 +20,12 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 import com.sciasv.asv.R;
-import com.sciasv.asv.adapters.AssetsAdapter;
 import com.sciasv.asv.handlers.JSONHandler;
 import com.sciasv.asv.models.AssetItem;
 import com.sciasv.asv.models.ProfileHolder;
 import com.sciasv.asv.network.Connect;
 import com.sciasv.asv.utils.ResponseHandler;
+import com.sciasv.asv.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -122,7 +116,7 @@ public class ScanFragment extends Fragment {
                         if (assetItems.size() == 0) {
                             responseHandler.showDialog("Oops!!!", "No asset found matching the scanned tag - " + tag);
                         } else {
-                            viewAsset(tag, assetItems);
+                            Utils.viewAsset(context, assetItems.get(0));
                         }
 
                     }
@@ -142,37 +136,7 @@ public class ScanFragment extends Fragment {
     }
 
 
-    void viewAsset(String tag, ArrayList<AssetItem> assetItems) {
-        final Dialog dialog = new Dialog(context, R.style.AppThemeLight);
-        dialog.setContentView(R.layout.dialog_view_asset);
-        dialog.setCancelable(false);
-        dialog.show();
 
-        TextView tTitle = dialog.findViewById(R.id.title);
-        tTitle.setText("Results for '" + tag + "'");
-
-        ImageButton btnNegative = dialog.findViewById(R.id.btnCancel);
-        final ImageButton btnDone = dialog.findViewById(R.id.btnCreate);
-
-        btnDone.setVisibility(View.INVISIBLE);
-
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-        RecyclerView recyclerView = dialog.findViewById(R.id.activity_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
-        recyclerView.setAdapter(new AssetsAdapter(context, assetItems));
-
-
-    }
 
     @Override
     public void onResume() {

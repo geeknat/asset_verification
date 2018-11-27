@@ -103,6 +103,11 @@ public class JSONHandler {
                 assetItem.setLocation(object.getString("issue_location_name"));
                 assetItem.setStatus(object.getString("status_label"));
                 assetItem.setSof(object.getString("_snipeit_sof"));
+                assetItem.setAssetTag(object.getString("asset_tag"));
+                assetItem.setPurchaseCost(object.getString("purchase_cost"));
+                assetItem.setCreatedAt(object.getString("created_at"));
+                assetItem.setComments(object.getString("notes"));
+                assetItem.setWarranty(object.getString("warranty_months") + " months");
                 assetItems.add(assetItem);
 
             }
