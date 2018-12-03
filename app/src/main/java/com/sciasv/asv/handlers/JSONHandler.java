@@ -108,6 +108,9 @@ public class JSONHandler {
                 assetItem.setCreatedAt(object.getString("created_at"));
                 assetItem.setComments(object.getString("notes"));
                 assetItem.setWarranty(object.getString("warranty_months") + " months");
+                assetItem.setProjectCode(object.getString("_snipeit_project_code"));
+                assetItem.setDEA(object.getString("_snipeit_dea"));
+                assetItem.setAccountCode(object.getString("_snipeit_account_code"));
                 assetItems.add(assetItem);
 
             }

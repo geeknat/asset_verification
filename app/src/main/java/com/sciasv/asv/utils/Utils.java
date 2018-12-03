@@ -727,6 +727,10 @@ public class Utils {
                 "Model Name : " + assetItem.getModelNo() + "\n\n" +
                 "Purchase Date : " + assetItem.getPurchaseDate() + "\n\n" +
                 "Purchase Cost : " + assetItem.getPurchaseCost() + "\n\n" +
+                "SOF : " + assetItem.getSof() + "\n\n" +
+                "Project Code : " + assetItem.getProjectCode() + "\n\n" +
+                "DEA : " + assetItem.getDEA() + "\n\n" +
+                "Account Code : " + assetItem.getAccountCode() + "\n\n" +
                 "Supplier : " + assetItem.getSupplier() + "\n\n" +
                 "Warranty : " + assetItem.getWarranty() + "\n\n" +
                 "Comments : " + assetItem.getComments() + "\n\n" +

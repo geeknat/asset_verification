@@ -1,5 +1,6 @@
 package com.sciasv.asv.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -167,7 +168,10 @@ public class Home extends AppCompatActivity {
                         new PrettyDialogCallback() {
                             @Override
                             public void onClick() {
-                                pDialog.dismiss();
+                                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                                startMain.addCategory(Intent.CATEGORY_HOME);
+                                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(startMain);
                             }
                         }
                 )

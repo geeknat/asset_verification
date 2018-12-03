@@ -2,7 +2,8 @@ package com.sciasv.asv.models;
 
 public class AssetItem {
     private String name, email, sof, accountCode, serialNumber, manufacturer, modelNo, purchaseDate,
-            supplier, location, defaultOffice, status,assetTag,purchaseCost,createdAt,comments,warranty;
+            supplier, location, defaultOffice, status, assetTag,
+            purchaseCost, createdAt, comments, warranty, projectCode, DEA;
 
     public String getName() {
         return name;
@@ -138,5 +139,21 @@ public class AssetItem {
 
     public void setWarranty(String warranty) {
         this.warranty = warranty;
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    public String getDEA() {
+        return DEA;
+    }
+
+    public void setDEA(String DEA) {
+        this.DEA = DEA;
     }
 }

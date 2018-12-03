@@ -20,6 +20,9 @@ import com.sciasv.asv.network.Connect;
 import com.sciasv.asv.utils.ResponseHandler;
 import com.sciasv.asv.utils.Utils;
 
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
+
 public class LogIn extends AppCompatActivity {
 
     EditText eUsername, ePassword;
@@ -56,6 +59,48 @@ public class LogIn extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        final PrettyDialog pDialog = new PrettyDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setIcon(
+                R.drawable.pdlg_icon_info,
+                R.color.pdlg_color_green, new PrettyDialogCallback() {
+                    @Override
+                    public void onClick() {
+                        pDialog.dismiss();
+                    }
+                })
+                .setTitle("Exit app?")
+                .setMessage("Do you really want to exit app?")
+                .addButton(
+                        "NO",
+                        R.color.pdlg_color_white,
+                        R.color.pdlg_color_green,
+                        new PrettyDialogCallback() {
+                            @Override
+                            public void onClick() {
+                                pDialog.dismiss();
+                            }
+                        }
+                )
+                .addButton(
+                        "YES",
+                        R.color.pdlg_color_white,
+                        R.color.pdlg_color_red,
+                        new PrettyDialogCallback() {
+                            @Override
+                            public void onClick() {
+                                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                                startMain.addCategory(Intent.CATEGORY_HOME);
+                                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(startMain);
+                            }
+                        }
+                )
+                .show();
+    }
 
     private void logIn() {
 
