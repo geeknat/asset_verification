@@ -10,13 +10,11 @@ public class Connect {
     public static String url = "http://" + HOST + "/elvis/api/";
 
     public static String login = "login";
-
+    public static String ms = "ms";
     public static String fetchAsset = "asset";
-
     public static String fetchUserHistory(String userId) {
         return "history/" + userId;
     }
-
     public static String tag = "HTTP_CALL";
 
 

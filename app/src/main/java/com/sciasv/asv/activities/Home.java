@@ -11,20 +11,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.microsoft.identity.client.MsalClientException;
+import com.microsoft.identity.client.PublicClientApplication;
+import com.microsoft.identity.client.User;
 import com.sciasv.asv.R;
 import com.sciasv.asv.fragments.HistoryFragment;
 import com.sciasv.asv.fragments.ScanFragment;
 import com.sciasv.asv.models.ProfileHolder;
 
+import java.util.List;
+
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
+
+import static com.sciasv.asv.activities.LogIn.CLIENT_ID;
 
 public class Home extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ProfileHolder profileHolder;
+    private PublicClientApplication sampleApp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,9 @@ public class Home extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        sampleApp = new PublicClientApplication(
+                this.getApplicationContext(),
+                CLIENT_ID);
 
     }
 
@@ -99,6 +112,7 @@ public class Home extends AppCompatActivity {
                             new PrettyDialogCallback() {
                                 @Override
                                 public void onClick() {
+                                    onSignOutClicked();
                                     profileHolder.logOut();
                                 }
                             }
@@ -109,6 +123,38 @@ public class Home extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void onSignOutClicked() {
+
+        /* Attempt to get a user and remove their cookies from cache */
+        List<User> users = null;
+
+        try {
+            users = sampleApp.getUsers();
+
+            if (users == null) {
+                /* We have no users */
+
+            } else if (users.size() == 1) {
+                /* We have 1 user */
+                /* Remove from token cache */
+                sampleApp.remove(users.get(0));
+            } else {
+                /* We have multiple users */
+                for (int i = 0; i < users.size(); i++) {
+                    sampleApp.remove(users.get(i));
+                }
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (MsalClientException e) {
+
+        } catch (IndexOutOfBoundsException e) {
+        }
     }
 
 
